@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abacus School of Austin — Where Children Thrive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Design Tokens ─────────────────────────────────────────────── */
+    :root {
+      --navy:       #0F1F3D;
+      --navy-mid:   #1B3461;
+      --navy-light: #2A4A80;
+      --coral:      #FF6B4A;
+      --coral-light:#FF8D72;
+      --mint:       #4ECDC4;
+      --mint-light: #7EDDD6;
+      --gold:       #F7C94B;
+      --lavender:   #9B8EFF;
+      --surface:    #FAFAF8;
+      --surface-2:  #F2F2EF;
+      --surface-3:  #E8E8E4;
+      --ink:        #0F1F3D;
+      --ink-2:      #4A5568;
+      --ink-3:      #718096;
+      --white:      #FFFFFF;
+
+      --radius-sm:  8px;
+      --radius-md:  16px;
+      --radius-lg:  24px;
+      --radius-xl:  36px;
+
+      --shadow-sm:  0 1px 3px rgba(15,31,61,.08), 0 1px 2px rgba(15,31,61,.06);
+      --shadow-md:  0 4px 16px rgba(15,31,61,.10), 0 2px 6px rgba(15,31,61,.06);
+      --shadow-lg:  0 12px 40px rgba(15,31,61,.14), 0 4px 12px rgba(15,31,61,.08);
+      --shadow-xl:  0 24px 64px rgba(15,31,61,.18), 0 8px 24px rgba(15,31,61,.10);
+
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body:    'Inter', sans-serif;
+
+      --transition: 240ms cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ─── Reset & Base ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--surface);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    /* ─── Utility ───────────────────────────────────────────────────── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 16px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--coral);
+      border-radius: 99px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--navy);
+      letter-spacing: -.02em;
+    }
+    .section-sub {
+      font-size: 1.125rem;
+      color: var(--ink-2);
+      max-width: 560px;
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      border: none;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: var(--coral);
+      color: var(--white);
+      box-shadow: 0 4px 16px rgba(255,107,74,.35);
+    }
+    .btn-primary:hover { background: #FF5533; box-shadow: 0 8px 28px rgba(255,107,74,.45); }
+    .btn-ghost {
+      background: rgba(255,255,255,.12);
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,.3);
+      backdrop-filter: blur(8px);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,.2); border-color: rgba(255,255,255,.5); }
+    .btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border: 1.5px solid var(--surface-3);
+    }
+    .btn-outline:hover { background: var(--surface-2); border-color: var(--navy-light); }
+
+    /* ─── Reveal animation ─────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+
+    /* ══════════════════════════════════════════════════════════════════
+       NAV
+    ══════════════════════════════════════════════════════════════════ */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 24px;
+      transition: background var(--transition), box-shadow var(--transition), padding var(--transition);
+    }
+    .nav.scrolled {
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 1px 0 rgba(15,31,61,.08), 0 4px 20px rgba(15,31,61,.07);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .nav-logo-mark {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(15,31,61,.35);
+      overflow: hidden;
+    }
+    .nav-logo-mark svg { display: block; }
+    .nav-logo-text {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--white);
+      transition: color var(--transition);
+      line-height: 1.2;
+    }
+    .nav-logo-text span {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      opacity: .75;
+    }
+    .nav.scrolled .nav-logo-text { color: var(--navy); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,.85);
+      transition: color var(--transition), background var(--transition);
+    }
+    .nav-links a:hover { color: white; background: rgba(255,255,255,.12); }
+    .nav.scrolled .nav-links a { color: var(--ink-2); }
+    .nav.scrolled .nav-links a:hover { color: var(--navy); background: var(--surface-2); }
+    .nav-cta {
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 55%, #1E3A5F 100%);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-top: 72px;
+    }
+    /* Decorative blobs */
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .hero-blob-1 {
+      width: 600px; height: 600px;
+      background: rgba(78,205,196,.12);
+      top: -100px; right: -100px;
+    }
+    .hero-blob-2 {
+      width: 400px; height: 400px;
+      background: rgba(255,107,74,.10);
+      bottom: 0; left: -80px;
+    }
+    .hero-blob-3 {
+      width: 300px; height: 300px;
+      background: rgba(155,142,255,.10);
+      top: 50%; left: 40%;
+      transform: translate(-50%,-50%);
+    }
+    /* Dot grid */
+    .hero-dots {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(10px);
+      border-radius: 99px;
+      padding: 6px 16px 6px 8px;
+      margin-bottom: 24px;
+    }
+    .hero-badge-dot {
+      width: 24px; height: 24px;
+      background: var(--coral);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+    }
+    .hero-badge-text {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,.9);
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .hero-title em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--coral-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-desc {
+      font-size: 1.125rem;
+      color: rgba(255,255,255,.7);
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 36px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+    .hero-social-proof {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-avatars {
+      display: flex;
+    }
+    .hero-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--navy-mid);
+      overflow: hidden;
+      margin-left: -8px;
+      background: linear-gradient(135deg, var(--mint) 0%, var(--lavender) 100%);
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+    }
+    .hero-avatar:first-child { margin-left: 0; }
+    .hero-proof-text {
+      font-size: 13px;
+      color: rgba(255,255,255,.65);
+      line-height: 1.4;
+    }
+    .hero-proof-text strong { color: rgba(255,255,255,.9); }
+
+    /* Visual panel */
+    .hero-visual {
+      position: relative;
+      padding: 68px 0;  /* breathing room above+below card so chips float clear */
+    }
+    .hero-card-main {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      overflow: hidden;
+    }
+    .hero-card-img {
+      width: 100%;
+      height: 260px;
+      background: linear-gradient(135deg, #4ECDC4 0%, #2A4A80 100%);
+      border-radius: var(--radius-lg);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(15,31,61,.3));
+    }
+    .hero-card-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--mint-light);
+      margin-bottom: 6px;
+    }
+    .hero-card-h {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 4px;
+    }
+    .hero-card-p {
+      font-size: 14px;
+      color: rgba(255,255,255,.6);
+    }
+    /* Floating chips */
+    .hero-chip {
+      position: absolute;
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--navy);
+      white-space: nowrap;
+    }
+    .hero-chip-icon { font-size: 20px; }
+    .hero-chip-sub { font-size: 11px; font-weight: 500; color: var(--ink-3); }
+    /* chips sit in the top/bottom padding — never overlap the card content */
+    .hero-chip-1 { top: 8px; right: 12px; animation: float 4s ease-in-out infinite; }
+    .hero-chip-2 { bottom: 8px; left: 12px; animation: float 5s ease-in-out infinite 1s; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       TRUST BAR
+    ══════════════════════════════════════════════════════════════════ */
+    .trust {
+      background: var(--navy);
+      padding: 48px 24px;
+    }
+    .trust-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+    .trust-item {
+      padding: 24px 32px;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    .trust-item:last-child { border-right: none; }
+    .trust-number {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -.03em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .trust-number span {
+      background: linear-gradient(90deg, var(--coral-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .trust-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,.55);
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       PROGRAMS
+    ══════════════════════════════════════════════════════════════════ */
+    .programs {
+      padding: 96px 24px;
+      background: var(--surface);
+    }
+    .programs-header {
+      max-width: 1200px;
+      margin: 0 auto 56px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .programs-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .program-card {
+      background: var(--white);
+      border: 1px solid var(--surface-3);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .program-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--color-a) 0%, var(--color-b) 100%);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .program-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-xl); border-color: transparent; }
+    .program-card:hover::before { opacity: 1; }
+    .program-card:hover .program-icon,
+    .program-card:hover .program-name,
+    .program-card:hover .program-age,
+    .program-card:hover .program-desc,
+    .program-card:hover .program-tag { color: white !important; border-color: rgba(255,255,255,.3) !important; background: rgba(255,255,255,.15) !important; }
+    .program-card > * { position: relative; z-index: 1; }
+    .program-icon {
+      font-size: 36px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .program-name {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+      transition: color var(--transition);
+    }
+    .program-age {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-3);
+      margin-bottom: 12px;
+      transition: color var(--transition);
+    }
+    .program-desc {
+      font-size: 13.5px;
+      color: var(--ink-2);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      transition: color var(--transition);
+    }
+    .program-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--surface-3);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-2);
+      transition: color var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       PHILOSOPHY — Bento Grid
+    ══════════════════════════════════════════════════════════════════ */
+    .philosophy {
+      padding: 96px 24px;
+      background: var(--surface-2);
+    }
+    .philosophy-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .philosophy-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: end;
+      margin-bottom: 48px;
+    }
+    .bento {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+    .bento-cell {
+      background: var(--white);
+      border: 1px solid var(--surface-3);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .bento-cell:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .bento-cell-large {
+      grid-column: span 2;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      border-color: transparent;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .bento-cell-large::after {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      background: rgba(78,205,196,.15);
+      border-radius: 50%;
+      bottom: -80px; right: -60px;
+      filter: blur(60px);
+    }
+    .bento-cell-large > * { position: relative; z-index: 1; }
+    .bento-cell-accent {
+      background: linear-gradient(135deg, var(--coral) 0%, var(--coral-light) 100%);
+      border-color: transparent;
+      color: white;
+    }
+    .bento-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .bento-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .bento-text {
+      font-size: 14px;
+      line-height: 1.65;
+      opacity: .75;
+    }
+    .bento-quote {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: white;
+      margin-bottom: 16px;
+    }
+    .bento-quote em { font-style: normal; color: var(--mint-light); }
+    .bento-author { font-size: 13px; color: rgba(255,255,255,.6); }
+
+    /* ══════════════════════════════════════════════════════════════════
+       MONTHLY FOCUS
+    ══════════════════════════════════════════════════════════════════ */
+    .focus {
+      padding: 72px 24px;
+      background: var(--surface);
+    }
+    .focus-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #4ECDC4 0%, #2A5F8F 100%);
+      border-radius: var(--radius-xl);
+      padding: 56px 64px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .focus-inner::before {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: rgba(255,255,255,.08);
+      border-radius: 50%;
+      top: -100px; right: -100px;
+    }
+    .focus-inner > * { position: relative; z-index: 1; }
+    .focus-kicker {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.7);
+      margin-bottom: 12px;
+    }
+    .focus-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 800;
+      color: white;
+      letter-spacing: -.02em;
+      margin-bottom: 8px;
+    }
+    .focus-sub { font-size: 1rem; color: rgba(255,255,255,.75); }
+    .focus-pills {
+      display: flex;
+      gap: 12px;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .focus-pill {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+    .focus-pill-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.6);
+      margin-bottom: 4px;
+    }
+    .focus-pill-value {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      white-space: nowrap;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       TESTIMONIALS
+    ══════════════════════════════════════════════════════════════════ */
+    .testimonials {
+      padding: 96px 24px;
+      background: var(--surface-2);
+    }
+    .testimonials-header {
+      max-width: 1200px;
+      margin: 0 auto 48px;
+    }
+    .testimonials-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .testimonial-card {
+      background: var(--white);
+      border: 1px solid var(--surface-3);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .testimonial-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+    .testimonial-card.featured {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      border-color: transparent;
+    }
+    .testimonial-stars {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 16px;
+      color: var(--gold);
+      font-size: 16px;
+    }
+    .testimonial-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink-2);
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .testimonial-card.featured .testimonial-text { color: rgba(255,255,255,.75); }
+    .testimonial-card.featured .testimonial-author { color: white; }
+    .testimonial-card.featured .testimonial-family { color: rgba(255,255,255,.55); }
+    .testimonial-author {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+    .testimonial-family {
+      font-size: 12px;
+      color: var(--ink-3);
+    }
+    .testimonial-quote-mark {
+      font-size: 64px;
+      line-height: 1;
+      color: var(--surface-3);
+      font-family: Georgia, serif;
+      margin-bottom: -12px;
+      display: block;
+    }
+    .testimonial-card.featured .testimonial-quote-mark { color: rgba(255,255,255,.1); }
+
+    /* ══════════════════════════════════════════════════════════════════
+       LOCATIONS
+    ══════════════════════════════════════════════════════════════════ */
+    .locations {
+      padding: 96px 24px;
+      background: var(--surface);
+    }
+    .locations-header {
+      max-width: 1200px;
+      margin: 0 auto 48px;
+    }
+    .locations-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .location-card {
+      background: var(--white);
+      border: 1px solid var(--surface-3);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .location-card:hover { box-shadow: var(--shadow-xl); transform: translateY(-6px); }
+    .location-map {
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+    .location-map-bg {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      position: relative;
+    }
+    .location-card:nth-child(1) .location-map-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .location-card:nth-child(2) .location-map-bg {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    .location-badge {
+      position: absolute;
+      top: 16px; left: 16px;
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 6px 14px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      box-shadow: var(--shadow-sm);
+    }
+    .location-body {
+      padding: 28px 32px 32px;
+    }
+    .location-name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+    .location-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .location-detail-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--surface-2);
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .location-detail-text { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+    .location-actions { display: flex; gap: 10px; margin-top: 24px; }
+    .btn-sm { padding: 10px 18px; font-size: 13px; }
+
+    /* ══════════════════════════════════════════════════════════════════
+       ENROLLMENT CTA
+    ══════════════════════════════════════════════════════════════════ */
+    .enroll {
+      padding: 96px 24px;
+      background: var(--surface-2);
+    }
+    .enroll-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, var(--coral) 0%, #FF3D1A 100%);
+      border-radius: var(--radius-xl);
+      padding: 72px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .enroll-inner::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      background: rgba(255,255,255,.06);
+      border-radius: 50%;
+      top: -150px; right: -150px;
+    }
+    .enroll-inner::after {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      background: rgba(255,255,255,.06);
+      border-radius: 50%;
+      bottom: -80px; left: -80px;
+    }
+    .enroll-inner > * { position: relative; z-index: 1; }
+    .enroll-eyebrow {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.7);
+      margin-bottom: 16px;
+    }
+    .enroll-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4.5vw, 3.25rem);
+      font-weight: 800;
+      color: white;
+      letter-spacing: -.03em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .enroll-sub {
+      font-size: 1.0625rem;
+      color: rgba(255,255,255,.75);
+      max-width: 500px;
+      margin: 0 auto 36px;
+    }
+    .enroll-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-white {
+      background: white;
+      color: var(--coral);
+    }
+    .btn-white:hover { background: var(--surface-2); }
+
+    /* ══════════════════════════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════════════════════════ */
+    .footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.65);
+      padding: 72px 24px 32px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 56px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      margin-bottom: 32px;
+    }
+    .footer-brand-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .footer-brand-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+    }
+    .footer-social {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      transition: background var(--transition), border-color var(--transition);
+      cursor: pointer;
+    }
+    .footer-social:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.25); }
+    .footer-col-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+      margin-bottom: 20px;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a {
+      font-size: 14px;
+      color: rgba(255,255,255,.6);
+      transition: color var(--transition);
+    }
+    .footer-links a:hover { color: white; }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-copy { font-size: 13px; }
+    .footer-legal {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-legal a {
+      font-size: 13px;
+      color: rgba(255,255,255,.4);
+      transition: color var(--transition);
+    }
+    .footer-legal a:hover { color: rgba(255,255,255,.75); }
+
+    /* ══════════════════════════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { display: none; }
+      .trust-inner { grid-template-columns: repeat(2,1fr); }
+      .programs-grid { grid-template-columns: repeat(2,1fr); }
+      .bento { grid-template-columns: 1fr 1fr; }
+      .bento-cell-large { grid-column: span 2; }
+      .testimonials-grid { grid-template-columns: 1fr 1fr; }
+      .locations-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .programs-grid { grid-template-columns: 1fr 1fr; }
+      .philosophy-header { grid-template-columns: 1fr; gap: 24px; }
+      .bento { grid-template-columns: 1fr; }
+      .bento-cell-large { grid-column: span 1; }
+      .focus-inner { grid-template-columns: 1fr; padding: 40px 32px; }
+      .focus-pills { flex-direction: row; align-items: stretch; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .enroll-inner { padding: 48px 32px; }
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+      .trust-inner { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 480px) {
+      .programs-grid { grid-template-columns: 1fr; }
+      .trust-inner { grid-template-columns: 1fr 1fr; }
+      .trust-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.08); }
+      .trust-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.08); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-mark">
+          <!-- Abacus icon: 3 rods with colour-coded counted beads -->
+          <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- outer frame -->
+            <rect x="2.5" y="5.5" width="35" height="29" rx="5" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+            <!-- vertical divider -->
+            <line x1="21" y1="7" x2="21" y2="33" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+            <!-- rod 1 -->
+            <line x1="2.5" y1="14" x2="37.5" y2="14" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- rod 2 -->
+            <line x1="2.5" y1="22" x2="37.5" y2="22" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- rod 3 -->
+            <line x1="2.5" y1="30" x2="37.5" y2="30" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- row 1: 2 counted (white) | 1 uncounted (dim) -->
+            <circle cx="8"  cy="14" r="3.8" fill="white"/>
+            <circle cx="15.5" cy="14" r="3.8" fill="white"/>
+            <circle cx="32" cy="14" r="3.8" fill="rgba(255,255,255,0.22)"/>
+            <!-- row 2: 1 counted (coral/mint) | 2 uncounted -->
+            <circle cx="8"  cy="22" r="3.8" fill="#FF8D72"/>
+            <circle cx="27" cy="22" r="3.8" fill="rgba(255,255,255,0.22)"/>
+            <circle cx="34.5" cy="22" r="3.8" fill="rgba(255,255,255,0.22)"/>
+            <!-- row 3: 3 counted (gold) -->
+            <circle cx="8"  cy="30" r="3.8" fill="#F7C94B"/>
+            <circle cx="15.5" cy="30" r="3.8" fill="#F7C94B"/>
+            <circle cx="23" cy="30" r="3.8" fill="#F7C94B"/>
+          </svg>
+        </div>
+        <div class="nav-logo-text">
+          Abacus School
+          <span>of Austin</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#philosophy">Philosophy</a></li>
+        <li><a href="#testimonials">Families</a></li>
+        <li><a href="#locations">Locations</a></li>
+        <li><a href="#enroll">Careers</a></li>
+      </ul>
+
+      <a href="#enroll" class="btn btn-primary btn-sm nav-cta">Schedule a Tour →</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════ -->
+  <section class="hero" id="home">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-blob hero-blob-3"></div>
+    <div class="hero-dots"></div>
+
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <div class="hero-badge-dot">✦</div>
+          <span class="hero-badge-text">Enrolling Now — Avery Ranch & Crystal Falls</span>
+        </div>
+
+        <h1 class="hero-title">
+          Where every child<br>
+          is made to <em>thrive</em>
+        </h1>
+
+        <p class="hero-desc">
+          Abacus School of Austin provides exceptional early childhood education in a safe, nurturing environment — from Infants through Kindergarten, with research-backed curriculum and heartfelt care.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#enroll" class="btn btn-primary">Schedule a Tour →</a>
+          <a href="#programs" class="btn btn-ghost">Explore Programs</a>
+        </div>
+
+        <div class="hero-social-proof">
+          <div class="hero-avatars">
+            <div class="hero-avatar">👨‍👩‍👧</div>
+            <div class="hero-avatar">👩‍👦</div>
+            <div class="hero-avatar">👨‍👧</div>
+            <div class="hero-avatar">👩‍👩‍👦</div>
+          </div>
+          <div class="hero-proof-text">
+            <strong>Trusted by hundreds of families</strong><br>
+            across Austin & Leander, TX
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <!-- Floating chip: top-left -->
+        <div class="hero-chip hero-chip-1">
+          <span class="hero-chip-icon">🌟</span>
+          <div>
+            <div>Low Ratios</div>
+            <div class="hero-chip-sub">Individualized attention</div>
+          </div>
+        </div>
+
+        <!-- Main card -->
+        <div class="hero-card-main">
+          <div class="hero-card-img">🎨</div>
+          <div class="hero-card-label">August Focus</div>
+          <div class="hero-card-h">Community &amp; Connection</div>
+          <div class="hero-card-p">This month's virtue: Welcoming · Spanish: La Escuela</div>
+        </div>
+
+        <!-- Floating chip: bottom-right -->
+        <div class="hero-chip hero-chip-2">
+          <span class="hero-chip-icon">🥗</span>
+          <div>
+            <div>Meals Included</div>
+            <div class="hero-chip-sub">Breakfast, lunch &amp; snack</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       TRUST BAR
+  ═══════════════════════════════════════════ -->
+  <section class="trust">
+    <div class="trust-inner">
+      <div class="trust-item reveal">
+        <div class="trust-number"><span class="count" data-target="20">0</span>+</div>
+        <div class="trust-label">Years serving Austin families</div>
+      </div>
+      <div class="trust-item reveal reveal-delay-1">
+        <div class="trust-number"><span class="count" data-target="8">0</span></div>
+        <div class="trust-label">Programs from Infant to Kindergarten</div>
+      </div>
+      <div class="trust-item reveal reveal-delay-2">
+        <div class="trust-number"><span>3</span></div>
+        <div class="trust-label">Daily enrichment classes included</div>
+      </div>
+      <div class="trust-item reveal reveal-delay-3">
+        <div class="trust-number"><span>2</span></div>
+        <div class="trust-label">Campus locations near you</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PROGRAMS
+  ═══════════════════════════════════════════ -->
+  <section class="programs" id="programs">
+    <div class="programs-header">
+      <div>
+        <div class="section-label reveal">Programs</div>
+        <h2 class="section-title reveal reveal-delay-1">The right program<br>for every stage</h2>
+        <p class="section-sub reveal reveal-delay-2">From first steps to kindergarten readiness — every program is built around your child's developmental stage.</p>
+      </div>
+      <a href="#enroll" class="btn btn-outline reveal reveal-delay-2">View all programs →</a>
+    </div>
+
+    <div class="programs-grid">
+
+      <div class="program-card reveal" style="--color-a:#667eea;--color-b:#764ba2">
+        <span class="program-icon">👶</span>
+        <div class="program-name">Infant Care</div>
+        <div class="program-age">6 weeks – 12 months</div>
+        <div class="program-desc">Loving, attentive care with low ratios so your baby gets the individual attention they need in those critical early months.</div>
+        <span class="program-tag">Enrolling Now</span>
+      </div>
+
+      <div class="program-card reveal reveal-delay-1" style="--color-a:#f093fb;--color-b:#f5576c">
+        <span class="program-icon">🐣</span>
+        <div class="program-name">Toddler</div>
+        <div class="program-age">12 – 24 months</div>
+        <div class="program-desc">Exploration-first environment designed for the natural curiosity of toddlers, with structured play and social growth.</div>
+        <span class="program-tag">Enrolling Now</span>
+      </div>
+
+      <div class="program-card reveal reveal-delay-2" style="--color-a:#4facfe;--color-b:#00f2fe">
+        <span class="program-icon">🌱</span>
+        <div class="program-name">Young Preschool</div>
+        <div class="program-age">2 – 3 years</div>
+        <div class="program-desc">Theme-based curriculum nurtures language, creativity, and emotional skills through guided play and group activities.</div>
+        <span class="program-tag">Limited Spots</span>
+      </div>
+
+      <div class="program-card reveal reveal-delay-3" style="--color-a:#43e97b;--color-b:#38f9d7">
+        <span class="program-icon">🎨</span>
+        <div class="program-name">Preschool</div>
+        <div class="program-age">3 – 4 years</div>
+        <div class="program-desc">Art, Spanish, and PE enrichment alongside core learning: colors, math, science, social studies, and language.</div>
+        <span class="program-tag">Enrolling Now</span>
+      </div>
+
+      <div class="program-card reveal" style="--color-a:#fa709a;--color-b:#fee140">
+        <span class="program-icon">📚</span>
+        <div class="program-name">Pre-Kindergarten</div>
+        <div class="program-age">4 – 5 years</div>
+        <div class="program-desc">Structured learning with virtue-based curriculum prepares children for the academic and social demands of kindergarten.</div>
+        <span class="program-tag">Enrolling Now</span>
+      </div>
+
+      <div class="program-card reveal reveal-delay-1" style="--color-a:#a18cd1;--color-b:#fbc2eb">
+        <span class="program-icon">🏫</span>
+        <div class="program-name">Kindergarten</div>
+        <div class="program-age">5 – 6 years</div>
+        <div class="program-desc">Full-day program with rich academic curriculum, social-emotional development, and strong family-school partnerships.</div>
+        <span class="program-tag">Limited Spots</span>
+      </div>
+
+      <div class="program-card reveal reveal-delay-2" style="--color-a:#fda085;--color-b:#f6d365">
+        <span class="program-icon">🌙</span>
+        <div class="program-name">After School</div>
+        <div class="program-age">K – 5th grade</div>
+        <div class="program-desc">Safe, enriching afterschool care with homework help, outdoor play, and creative activities until 6:30 PM.</div>
+        <span class="program-tag">Enrolling Now</span>
+      </div>
+
+      <div class="program-card reveal reveal-delay-3" style="--color-a:#30cfd0;--color-b:#330867">
+        <span class="program-icon">☀️</span>
+        <div class="program-name">Summer Camp</div>
+        <div class="program-age">All ages</div>
+        <div class="program-desc">Monthly field trips, in-house enrichment, and themed weeks make summer an adventure your child will talk about all year.</div>
+        <span class="program-tag">Summer 2025</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PHILOSOPHY — Bento Grid
+  ═══════════════════════════════════════════ -->
+  <section class="philosophy" id="philosophy">
+    <div class="philosophy-inner">
+      <div class="philosophy-header">
+        <div>
+          <div class="section-label reveal">Our Approach</div>
+          <h2 class="section-title reveal reveal-delay-1">Learning that sparks<br>a lifelong love</h2>
+        </div>
+        <p class="section-sub reveal">We blend research-backed pedagogy with a warm, community-centered environment — because the best learning happens when children feel safe, seen, and inspired.</p>
+      </div>
+
+      <div class="bento">
+        <!-- Large featured cell -->
+        <div class="bento-cell bento-cell-large reveal">
+          <div class="bento-quote">
+            "Early childhood education should be <em>exciting</em> — not just for children, but for everyone in the room."
+          </div>
+          <div class="bento-author">— Abacus School Philosophy</div>
+        </div>
+
+        <!-- Side cell -->
+        <div class="bento-cell reveal reveal-delay-1">
+          <span class="bento-icon">🌍</span>
+          <div class="bento-title">Theme-Based Curriculum</div>
+          <div class="bento-text">Monthly themes weave together math, science, social studies, and language arts — giving children context and connection across subjects.</div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="bento-cell bento-cell-accent reveal">
+          <span class="bento-icon">💛</span>
+          <div class="bento-title">Virtue-Focused Learning</div>
+          <div class="bento-text" style="color:rgba(255,255,255,.8)">Weekly virtues — respect, compassion, welcoming — are woven into every activity, building character alongside academics.</div>
+        </div>
+
+        <div class="bento-cell reveal reveal-delay-1">
+          <span class="bento-icon">🇪🇸</span>
+          <div class="bento-title">Spanish Immersion</div>
+          <div class="bento-text">Daily Spanish classes at every level build early bilingual foundations during the most receptive window for language acquisition.</div>
+        </div>
+
+        <div class="bento-cell reveal reveal-delay-2">
+          <span class="bento-icon">🏃</span>
+          <div class="bento-title">Movement &amp; Art Daily</div>
+          <div class="bento-text">Dedicated PE, art studio, and outdoor time are built into every day — not extras, but essentials for healthy development.</div>
+        </div>
+
+        <div class="bento-cell reveal reveal-delay-3">
+          <span class="bento-icon">👪</span>
+          <div class="bento-title">Family as Partners</div>
+          <div class="bento-text">Open campus visits, parenting classes, and continuous communication keep families deeply connected to their child's journey.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MONTHLY FOCUS
+  ═══════════════════════════════════════════ -->
+  <section class="focus">
+    <div class="container">
+      <div class="focus-inner reveal">
+        <div>
+          <div class="focus-kicker">✦ This Month at Abacus</div>
+          <div class="focus-title">Community &amp; Connection</div>
+          <div class="focus-sub">We explore what it means to belong, to welcome others, and to build the kind of community where every child thrives.</div>
+        </div>
+        <div class="focus-pills">
+          <div class="focus-pill">
+            <div class="focus-pill-label">Monthly Theme</div>
+            <div class="focus-pill-value">🌍 Community</div>
+          </div>
+          <div class="focus-pill">
+            <div class="focus-pill-label">Virtue of the Month</div>
+            <div class="focus-pill-value">💛 Welcoming</div>
+          </div>
+          <div class="focus-pill">
+            <div class="focus-pill-label">Spanish Word</div>
+            <div class="focus-pill-value">🇪🇸 La Escuela</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       TESTIMONIALS
+  ═══════════════════════════════════════════ -->
+  <section class="testimonials" id="testimonials">
+    <div class="testimonials-header">
+      <div class="section-label reveal">Families</div>
+      <h2 class="section-title reveal reveal-delay-1">Stories from our community</h2>
+    </div>
+
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card featured reveal">
+        <span class="testimonial-quote-mark">"</span>
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">"When we had Marina, leaving her at 7 months with people we did not know was very scary. But after going to Abacus, we knew she would be alright."</div>
+        <div class="testimonial-author">The Bou Family</div>
+        <div class="testimonial-family">Abacus parent since 2019</div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <span class="testimonial-quote-mark">"</span>
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">"This year has truly been a blessing. Judson has grown leaps and bounds, which is a true testament to both the class make-up and the teachers."</div>
+        <div class="testimonial-author">The Kasson Family</div>
+        <div class="testimonial-family">Kindergarten parent</div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <span class="testimonial-quote-mark">"</span>
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">"It makes us feel so happy that they are already learning so much to get them ready for kindergarten. We couldn't be more grateful."</div>
+        <div class="testimonial-author">The Donaldson Family</div>
+        <div class="testimonial-family">Pre-K parent</div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <span class="testimonial-quote-mark">"</span>
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">"Thank you for all you do to make and keep Abacus the great place that it is. I don't know how you all do so much and keep it all straight."</div>
+        <div class="testimonial-author">The Bland Family</div>
+        <div class="testimonial-family">Multi-year Abacus family</div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <span class="testimonial-quote-mark">"</span>
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">"The graduation ceremony was wonderful! The preparation, performances, and actual ceremony were all so memorable. Thank you for everything."</div>
+        <div class="testimonial-author">Deborah Frers</div>
+        <div class="testimonial-family">Kindergarten graduation parent</div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2" style="background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); border-color:transparent;">
+        <div style="font-size:48px; margin-bottom: 16px;">🌟</div>
+        <div class="bento-title" style="color:#0F1F3D; font-size:20px; margin-bottom:8px;">Join our community</div>
+        <div class="bento-text" style="color:rgba(15,31,61,.65); margin-bottom:20px;">See for yourself why hundreds of Austin families choose Abacus year after year.</div>
+        <a href="#enroll" class="btn btn-primary btn-sm">Schedule a Tour →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       LOCATIONS
+  ═══════════════════════════════════════════ -->
+  <section class="locations" id="locations">
+    <div class="locations-header">
+      <div class="section-label reveal">Our Campuses</div>
+      <h2 class="section-title reveal reveal-delay-1">Two locations,<br>one community</h2>
+    </div>
+
+    <div class="locations-grid">
+      <div class="location-card reveal">
+        <div class="location-map">
+          <div class="location-map-bg">🏫</div>
+          <div class="location-badge">Avery Ranch</div>
+        </div>
+        <div class="location-body">
+          <div class="location-name">Avery Ranch Campus</div>
+          <div class="location-detail">
+            <div class="location-detail-icon">📍</div>
+            <div class="location-detail-text">14115 Avery Ranch Blvd.<br>Austin, TX 78717</div>
+          </div>
+          <div class="location-detail">
+            <div class="location-detail-icon">📞</div>
+            <div class="location-detail-text">512.381.2200</div>
+          </div>
+          <div class="location-detail">
+            <div class="location-detail-icon">✉️</div>
+            <div class="location-detail-text">infoar@abacusschools.com</div>
+          </div>
+          <div class="location-actions">
+            <a href="#enroll" class="btn btn-primary btn-sm">Schedule a Tour →</a>
+            <a href="tel:5123812200" class="btn btn-outline btn-sm">Call Campus</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="location-card reveal reveal-delay-1">
+        <div class="location-map">
+          <div class="location-map-bg">🌳</div>
+          <div class="location-badge">Crystal Falls</div>
+        </div>
+        <div class="location-body">
+          <div class="location-name">Crystal Falls Campus</div>
+          <div class="location-detail">
+            <div class="location-detail-icon">📍</div>
+            <div class="location-detail-text">1720 South Bagdad Road<br>Leander, TX 78641</div>
+          </div>
+          <div class="location-detail">
+            <div class="location-detail-icon">📞</div>
+            <div class="location-detail-text">512.806.7788</div>
+          </div>
+          <div class="location-detail">
+            <div class="location-detail-icon">✉️</div>
+            <div class="location-detail-text">infocf@abacusschools.com</div>
+          </div>
+          <div class="location-actions">
+            <a href="#enroll" class="btn btn-primary btn-sm">Schedule a Tour →</a>
+            <a href="tel:5128067788" class="btn btn-outline btn-sm">Call Campus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ENROLLMENT CTA
+  ═══════════════════════════════════════════ -->
+  <section class="enroll" id="enroll">
+    <div class="enroll-inner reveal">
+      <div class="enroll-eyebrow">✦ Ready to get started?</div>
+      <h2 class="enroll-title">Your child's best year starts with a single visit</h2>
+      <p class="enroll-sub">Schedule a free tour of either campus and see firsthand why Abacus is Austin's most trusted early childhood school.</p>
+      <div class="enroll-actions">
+        <a href="mailto:infoar@abacusschools.com" class="btn btn-white">📍 Tour Avery Ranch</a>
+        <a href="mailto:infocf@abacusschools.com" class="btn btn-ghost">📍 Tour Crystal Falls</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand-name">
+            <div class="nav-logo-mark">
+              <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="2.5" y="5.5" width="35" height="29" rx="5" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                <line x1="21" y1="7" x2="21" y2="33" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+                <line x1="2.5" y1="14" x2="37.5" y2="14" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="2.5" y1="22" x2="37.5" y2="22" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="2.5" y1="30" x2="37.5" y2="30" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="8"  cy="14" r="3.8" fill="white"/>
+                <circle cx="15.5" cy="14" r="3.8" fill="white"/>
+                <circle cx="32" cy="14" r="3.8" fill="rgba(255,255,255,0.22)"/>
+                <circle cx="8"  cy="22" r="3.8" fill="#FF8D72"/>
+                <circle cx="27" cy="22" r="3.8" fill="rgba(255,255,255,0.22)"/>
+                <circle cx="34.5" cy="22" r="3.8" fill="rgba(255,255,255,0.22)"/>
+                <circle cx="8"  cy="30" r="3.8" fill="#F7C94B"/>
+                <circle cx="15.5" cy="30" r="3.8" fill="#F7C94B"/>
+                <circle cx="23" cy="30" r="3.8" fill="#F7C94B"/>
+              </svg>
+            </div>
+            Abacus School of Austin
+          </div>
+          <div class="footer-brand-desc">
+            Every child deserves a safe, nurturing environment where they can learn, grow, and thrive. That's our promise — every single day.
+          </div>
+          <div class="footer-socials">
+            <div class="footer-social">f</div>
+            <div class="footer-social">in</div>
+            <div class="footer-social">▶</div>
+            <div class="footer-social">📸</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Programs</div>
+          <ul class="footer-links">
+            <li><a href="#programs">Infant Care</a></li>
+            <li><a href="#programs">Toddler</a></li>
+            <li><a href="#programs">Preschool</a></li>
+            <li><a href="#programs">Pre-Kindergarten</a></li>
+            <li><a href="#programs">Kindergarten</a></li>
+            <li><a href="#programs">After School</a></li>
+            <li><a href="#programs">Summer Camp</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a href="#philosophy">Our Philosophy</a></li>
+            <li><a href="#testimonials">Family Stories</a></li>
+            <li><a href="#locations">Locations</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">FAQs</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Contact</div>
+          <ul class="footer-links">
+            <li><a href="tel:5123812200">512.381.2200 (AR)</a></li>
+            <li><a href="tel:5128067788">512.806.7788 (CF)</a></li>
+            <li><a href="mailto:infoar@abacusschools.com">infoar@abacusschools.com</a></li>
+            <li><a href="mailto:infocf@abacusschools.com">infocf@abacusschools.com</a></li>
+            <li><a href="#enroll">Schedule a Tour</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2025 Abacus School of Austin. All rights reserved.</div>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════ -->
+  <script>
+    // ── Sticky nav ──────────────────────────────────────────
+    const nav = document.getElementById('nav');
+    const onScroll = () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ── Scroll reveal ───────────────────────────────────────
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    // ── Count-up numbers ────────────────────────────────────
+    const countObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        const target = parseInt(el.dataset.target, 10);
+        const duration = 1400;
+        const start = performance.now();
+        const tick = (now) => {
+          const p = Math.min((now - start) / duration, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(ease * target);
+          if (p < 1) requestAnimationFrame(tick);
+          else el.textContent = target;
+        };
+        requestAnimationFrame(tick);
+        countObs.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.count').forEach(el => countObs.observe(el));
+
+    // ── Smooth scroll for nav links ─────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
